@@ -1,0 +1,996 @@
+MEGA PROMPT — BUILD A COMPLETE TO-DO LIST APPLICATION IN REPLIT
+ROLE
+
+You are an expert full-stack software engineer working inside Replit.
+
+Your task is to design, build, test, debug, and deploy a polished, production-ready To-Do List web application.
+
+Do not merely describe the application or provide instructions. Actually implement the application in the Replit project.
+
+Before making major architectural decisions, inspect the existing project files and determine what technology and structure are already being used.
+
+If a project already exists, preserve useful existing functionality and improve it rather than unnecessarily rebuilding everything from scratch.
+
+1. APPLICATION GOAL
+
+Build a modern, responsive, easy-to-use To-Do List application that allows users to create, organize, manage, prioritize, search, filter, and complete tasks.
+
+The application should feel like a polished productivity product rather than a basic demo.
+
+The application must be:
+
+Fast
+
+Responsive
+
+Accessible
+
+Mobile-friendly
+
+Easy to understand
+
+Visually polished
+
+Reliable
+
+Maintainable
+
+Secure
+
+Easy to extend in the future
+
+2. CORE FEATURES
+
+Implement the following features.
+
+Task Creation
+
+Users must be able to:
+
+Create a new task
+
+Enter a task title
+
+Add an optional description
+
+Set a priority
+
+Set a due date
+
+Add a category
+
+Add tags
+
+Save the task
+
+Cancel task creation
+
+Validate required fields and provide clear error messages.
+
+3. TASK MANAGEMENT
+
+Users must be able to:
+
+View all tasks
+
+Mark tasks as complete
+
+Mark completed tasks as incomplete
+
+Edit tasks
+
+Delete tasks
+
+View task details
+
+Duplicate a task if useful
+
+Restore a recently deleted task if practical
+
+Completed tasks should be visually different from active tasks.
+
+Use confirmation before permanently deleting important data.
+
+4. PRIORITY SYSTEM
+
+Provide three or four priority levels.
+
+Recommended:
+
+🔴 High
+
+🟡 Medium
+
+🟢 Low
+
+⚪ No Priority
+
+Users should be able to:
+
+Assign priority
+
+Change priority
+
+Filter by priority
+
+Sort by priority
+
+Make priority visually obvious without relying only on color.
+
+5. DUE DATES
+
+Users should be able to assign due dates.
+
+Clearly identify:
+
+Overdue tasks
+
+Tasks due today
+
+Tasks due tomorrow
+
+Upcoming tasks
+
+Tasks without a deadline
+
+Use appropriate visual indicators.
+
+Do not invent dates.
+
+Handle date/time consistently.
+
+6. CATEGORIES
+
+Allow users to organize tasks into categories.
+
+Example categories:
+
+Personal
+
+Work
+
+Study
+
+Shopping
+
+Health
+
+Other
+
+Users should be able to:
+
+Create categories
+
+Rename categories
+
+Delete categories
+
+Assign tasks to categories
+
+Filter tasks by category
+
+Do not hard-code categories if the architecture allows user-created categories.
+
+7. TAGS
+
+Allow users to add tags to tasks.
+
+Example:
+
+Important
+
+Project
+
+Meeting
+
+Finance
+
+School
+
+Users should be able to:
+
+Add tags
+
+Remove tags
+
+Filter by tags
+
+8. SEARCH
+
+Add a search feature.
+
+Users should be able to search tasks by:
+
+Title
+
+Description
+
+Category
+
+Tags
+
+Search should update the visible task list appropriately.
+
+Provide a clear empty-search-results state.
+
+9. FILTERING
+
+Provide filters for:
+
+All tasks
+
+Active tasks
+
+Completed tasks
+
+Overdue
+
+Due today
+
+Due soon
+
+High priority
+
+Medium priority
+
+Low priority
+
+Category
+
+Tags
+
+Filters should be easy to reset.
+
+Show the currently active filters.
+
+10. SORTING
+
+Allow users to sort tasks by:
+
+Due date
+
+Priority
+
+Creation date
+
+Alphabetical order
+
+Completion status
+
+Provide ascending and descending options where appropriate.
+
+11. DASHBOARD
+
+Create a useful dashboard or summary section.
+
+Display information such as:
+
+Total tasks
+
+Active tasks
+
+Completed tasks
+
+Overdue tasks
+
+Tasks due today
+
+High-priority tasks
+
+If appropriate, include a visual completion percentage.
+
+Example:
+
+12 / 20 tasks completed — 60%
+
+The dashboard should provide useful information without becoming cluttered.
+
+12. USER INTERFACE
+
+Create a modern productivity-focused interface.
+
+The main screen should include:
+
+Application header
+
+Navigation/sidebar where appropriate
+
+Add Task button
+
+Search bar
+
+Filter controls
+
+Task list
+
+Task cards or rows
+
+Task statistics
+
+Category navigation
+
+User-friendly empty states
+
+Use consistent spacing, typography, icons, buttons, and colors.
+
+Avoid excessive animations.
+
+13. RESPONSIVE DESIGN
+
+The application must work well on:
+
+Desktop
+
+Laptop
+
+Tablet
+
+Mobile phone
+
+On small screens:
+
+Navigation should adapt appropriately.
+
+Task controls should remain usable.
+
+Forms should fit the screen.
+
+Buttons should remain accessible.
+
+Text should not overflow.
+
+Tables should transform into mobile-friendly layouts where necessary.
+
+Test multiple viewport sizes.
+
+14. DARK MODE
+
+Implement light and dark themes if compatible with the existing project.
+
+Provide a theme toggle.
+
+Persist the user's theme preference.
+
+Ensure:
+
+Text remains readable.
+
+Buttons remain visible.
+
+Borders remain visible.
+
+Form fields remain usable.
+
+Priority indicators remain understandable.
+
+Do not use colors that fail accessibility requirements.
+
+15. DATA STORAGE
+
+Choose an appropriate persistence solution based on the existing project.
+
+If a database is already configured, use it.
+
+If no database exists, choose a simple reliable database architecture appropriate for Replit.
+
+Store at minimum:
+
+Task
+
+id
+
+title
+
+description
+
+completed
+
+priority
+
+due date
+
+category
+
+tags
+
+created date
+
+updated date
+
+Category
+
+id
+
+name
+
+created date
+
+Design the database so it can be extended later.
+
+16. OPTIONAL AUTHENTICATION
+
+If authentication is appropriate for the project, implement secure user accounts.
+
+Users should be able to:
+
+Register
+
+Log in
+
+Log out
+
+Access only their own tasks
+
+Never expose passwords or sensitive credentials.
+
+Never hard-code secrets.
+
+Store secrets using secure environment variables/secrets.
+
+If authentication is not required for the current project, do not add unnecessary complexity.
+
+17. API / BACKEND
+
+If the application uses a backend, implement clean APIs for:
+
+Creating tasks
+
+Reading tasks
+
+Updating tasks
+
+Completing tasks
+
+Deleting tasks
+
+Searching tasks
+
+Filtering tasks
+
+Creating categories
+
+Updating categories
+
+Deleting categories
+
+Validate incoming data.
+
+Return appropriate HTTP status codes.
+
+Handle errors consistently.
+
+Never trust client-side validation alone.
+
+18. ERROR HANDLING
+
+Implement user-friendly error handling.
+
+Handle:
+
+Invalid task data
+
+Failed database operations
+
+Network failures
+
+Missing data
+
+Invalid dates
+
+Duplicate data where relevant
+
+Unauthorized requests
+
+Server errors
+
+Do not show raw technical errors to normal users.
+
+Show useful messages such as:
+
+"Unable to save your task. Please try again."
+
+Log technical details appropriately for debugging.
+
+19. LOADING STATES
+
+Add loading states where appropriate.
+
+Examples:
+
+Loading tasks
+
+Saving task
+
+Updating task
+
+Deleting task
+
+Loading dashboard statistics
+
+Prevent users from accidentally submitting the same action multiple times.
+
+20. EMPTY STATES
+
+Create helpful empty states.
+
+Examples:
+
+No Tasks
+
+"You're all caught up! Create a task to get started."
+
+No Search Results
+
+"No tasks match your search."
+
+No Completed Tasks
+
+"You haven't completed any tasks yet."
+
+Include an appropriate action button where useful.
+
+21. ACCESSIBILITY
+
+Follow accessibility best practices.
+
+Ensure:
+
+Keyboard navigation works.
+
+Buttons have accessible labels.
+
+Form fields have labels.
+
+Focus states are visible.
+
+Color is not the only method of communicating information.
+
+Contrast is sufficient.
+
+Interactive elements are appropriately sized.
+
+Modal dialogs can be closed using keyboard controls.
+
+Screen readers can understand important controls.
+
+Use semantic HTML wherever possible.
+
+22. SECURITY
+
+Review the application for common security issues.
+
+Check for:
+
+Hard-coded secrets
+
+Exposed API keys
+
+Unsafe user input
+
+Injection vulnerabilities
+
+XSS vulnerabilities
+
+Broken authorization
+
+Insecure API endpoints
+
+Unsafe database queries
+
+Sensitive information in client-side code
+
+Use parameterized/database-safe queries.
+
+Never expose environment secrets to the frontend unless explicitly required and safe.
+
+23. PERFORMANCE
+
+Keep the application fast.
+
+Avoid:
+
+Unnecessary API requests
+
+Unnecessary database queries
+
+Excessive component re-rendering
+
+Huge assets
+
+Unnecessary dependencies
+
+Use pagination, debouncing, caching, or other optimizations only where they provide a real benefit.
+
+Do not prematurely optimize simple functionality.
+
+24. REPLIT CONFIGURATION
+
+Inspect the existing Replit project before changing configuration.
+
+Verify:
+
+Runtime
+
+Dependencies
+
+Start command
+
+Development command
+
+Build command
+
+Environment variables
+
+Secrets
+
+Database configuration
+
+Production configuration
+
+Make sure the application can be started successfully in Replit.
+
+Do not delete or replace existing configuration unless necessary.
+
+25. TESTING
+
+Test the application thoroughly.
+
+At minimum, test:
+
+Task Tests
+
+Create task
+
+Edit task
+
+Complete task
+
+Uncomplete task
+
+Delete task
+
+View task
+
+Search Tests
+
+Search existing task
+
+Search nonexistent task
+
+Clear search
+
+Filter Tests
+
+Filter active tasks
+
+Filter completed tasks
+
+Filter priority
+
+Filter category
+
+Filter due dates
+
+Date Tests
+
+Today
+
+Tomorrow
+
+Future date
+
+Overdue task
+
+No due date
+
+UI Tests
+
+Desktop
+
+Tablet
+
+Mobile
+
+Light mode
+
+Dark mode
+
+Error Tests
+
+Invalid input
+
+Failed request
+
+Database failure
+
+Unauthorized operation where applicable
+
+Fix discovered bugs rather than merely documenting them.
+
+26. TASK LIST DEVELOPMENT WORKFLOW
+
+Follow this implementation order unless the existing architecture requires another order:
+
+Phase 1 — Inspect
+
+Inspect the Replit project.
+
+Identify the existing framework.
+
+Identify the existing file structure.
+
+Identify existing dependencies.
+
+Identify existing database configuration.
+
+Identify existing authentication.
+
+Identify existing UI.
+
+Identify existing functionality.
+
+Identify existing problems.
+
+Phase 2 — Plan
+
+Create an implementation checklist.
+
+Separate:
+
+Existing functionality
+
+Missing functionality
+
+Broken functionality
+
+Optional improvements
+
+Do not rebuild working functionality unnecessarily.
+
+Phase 3 — Foundation
+
+Configure project
+
+Configure dependencies
+
+Configure database
+
+Create models/schema
+
+Configure environment variables
+
+Create basic application structure
+
+Phase 4 — Core Tasks
+
+Implement:
+
+Create
+
+Read
+
+Update
+
+Delete
+
+Complete/uncomplete
+
+Phase 5 — Organization
+
+Implement:
+
+Priority
+
+Due dates
+
+Categories
+
+Tags
+
+Search
+
+Filters
+
+Sorting
+
+Phase 6 — UI
+
+Implement:
+
+Dashboard
+
+Task list
+
+Task forms
+
+Navigation
+
+Responsive layout
+
+Empty states
+
+Loading states
+
+Error states
+
+Phase 7 — Polish
+
+Implement:
+
+Dark mode
+
+Accessibility
+
+Animations where appropriate
+
+Responsive improvements
+
+Visual consistency
+
+Phase 8 — Security
+
+Perform a security review.
+
+Phase 9 — Testing
+
+Test all major functionality.
+
+Phase 10 — Deployment
+
+Verify that the application runs correctly in the Replit environment and production configuration.
+
+27. CODE QUALITY
+
+Write clean, maintainable code.
+
+Follow the conventions of the existing project.
+
+Avoid:
+
+Unnecessary duplication
+
+Giant components
+
+Giant functions
+
+Unused dependencies
+
+Dead code
+
+Hard-coded configuration
+
+Unclear variable names
+
+Create reusable components and utilities where they improve maintainability.
+
+Do not over-engineer a simple To-Do application.
+
+28. FINAL ACCEPTANCE CRITERIA
+
+The application is complete only when:
+
+ Users can create tasks.
+
+ Users can edit tasks.
+
+ Users can delete tasks.
+
+ Users can complete and uncomplete tasks.
+
+ Tasks persist correctly.
+
+ Priority works.
+
+ Due dates work.
+
+ Categories work.
+
+ Tags work.
+
+ Search works.
+
+ Filtering works.
+
+ Sorting works.
+
+ Dashboard statistics work.
+
+ Loading states work.
+
+ Error states work.
+
+ Empty states work.
+
+ Responsive design works.
+
+ Accessibility basics are implemented.
+
+ Security has been reviewed.
+
+ No secrets are exposed.
+
+ The application runs correctly in Replit.
+
+ Major functionality has been tested.
+
+ Major bugs have been fixed.
+
+29. IMPORTANT DEVELOPMENT RULES
+
+Follow these rules strictly:
+
+Inspect before modifying.
+
+Reuse existing functionality when possible.
+
+Do not delete working code without a reason.
+
+Do not invent requirements.
+
+Do not expose secrets.
+
+Do not hard-code credentials.
+
+Do not claim something works without testing it.
+
+Fix errors before moving to unrelated features when practical.
+
+Keep the application simple and maintainable.
+
+Prioritize core functionality before cosmetic improvements.
+
+Test every major feature after implementation.
+
+Keep the UI consistent.
+
+Make reasonable technical decisions when requirements are ambiguous.
+
+If an important decision cannot safely be made, clearly identify it.
+
+Do not stop after generating a plan — implement the application.
+
+After implementation, run tests and verify the application.
+
+If tests fail, diagnose and fix the underlying problem.
+
+Finish with a concise summary of what was implemented, what was tested, and anything that remains.
+
+30. FINAL RESPONSE AFTER BUILDING
+
+After completing the implementation, provide:
+
+✅ Completed
+
+List the features that were successfully implemented.
+
+🧪 Tested
+
+List the important functionality that was tested.
+
+🐛 Fixed
+
+List significant bugs or errors that were fixed.
+
+⚠️ Remaining
+
+List anything that could not be completed or still requires attention.
+
+🚀 How to Run
+
+Provide the correct instructions for running the application in Replit.
+
+📌 Next Improvements
+
+Suggest only the most valuable future improvements.
+
+START BUILDING
+
+Now inspect the current Replit project.
+
+First understand what already exists.
+
+Then create an implementation plan internally and begin building the To-Do List application.
+
+Do not stop at planning.
+
+Implement the application, test it, fix errors, and leave the Replit project in a working state.

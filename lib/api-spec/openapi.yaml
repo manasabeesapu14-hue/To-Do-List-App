@@ -10,6 +10,12 @@ servers:
 tags:
   - name: health
     description: Health operations
+  - name: tasks
+    description: Task management
+  - name: categories
+    description: Task categories
+  - name: dashboard
+    description: Task summary
 paths:
   /healthz:
     get:
@@ -24,6 +30,195 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+  /tasks:
+    get:
+      operationId: listTasks
+      tags: [tasks]
+      summary: List and filter tasks
+      parameters:
+        - name: search
+          in: query
+          schema: { type: string }
+        - name: status
+          in: query
+          schema: { type: string, enum: [all, active, completed] }
+        - name: priority
+          in: query
+          schema: { type: string, enum: [high, medium, low, none] }
+        - name: categoryId
+          in: query
+          schema: { type: ["string", "null"], format: uuid }
+        - name: tag
+          in: query
+          schema: { type: string }
+        - name: due
+          in: query
+          schema: { type: string, enum: [overdue, today, tomorrow, upcoming, none] }
+        - name: today
+          in: query
+          description: The user's local calendar date in YYYY-MM-DD format
+          schema: { type: string, pattern: '^\d{4}-\d{2}-\d{2}$' }
+        - name: sort
+          in: query
+          schema: { type: string, enum: [dueDate, priority, createdAt, title, completed] }
+        - name: direction
+          in: query
+          schema: { type: string, enum: [asc, desc] }
+      responses:
+        "200":
+          description: Filtered task list
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/Task" }
+    post:
+      operationId: createTask
+      tags: [tasks]
+      summary: Create a task
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/TaskInput" }
+      responses:
+        "201":
+          description: Created task
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Task" }
+  /tasks/{taskId}:
+    parameters:
+      - name: taskId
+        in: path
+        required: true
+        schema: { type: string, format: uuid }
+    get:
+      operationId: getTask
+      tags: [tasks]
+      summary: Get a task
+      responses:
+        "200":
+          description: Task details
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Task" }
+        "404": { description: Task not found }
+    patch:
+      operationId: updateTask
+      tags: [tasks]
+      summary: Update task details or completion state
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/TaskUpdate" }
+      responses:
+        "200":
+          description: Updated task
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Task" }
+        "404": { description: Task not found }
+    delete:
+      operationId: deleteTask
+      tags: [tasks]
+      summary: Permanently delete a task
+      responses:
+        "204": { description: Task deleted }
+        "404": { description: Task not found }
+  /tasks/{taskId}/duplicate:
+    post:
+      operationId: duplicateTask
+      tags: [tasks]
+      summary: Duplicate a task
+      parameters:
+        - name: taskId
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        "201":
+          description: Duplicated task
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Task" }
+        "404": { description: Task not found }
+  /categories:
+    get:
+      operationId: listCategories
+      tags: [categories]
+      summary: List categories
+      responses:
+        "200":
+          description: Categories
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/Category" }
+    post:
+      operationId: createCategory
+      tags: [categories]
+      summary: Create a category
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/CategoryInput" }
+      responses:
+        "201":
+          description: Created category
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Category" }
+        "409": { description: Category name already exists }
+  /categories/{categoryId}:
+    parameters:
+      - name: categoryId
+        in: path
+        required: true
+        schema: { type: string, format: uuid }
+    patch:
+      operationId: updateCategory
+      tags: [categories]
+      summary: Rename a category
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/CategoryUpdate" }
+      responses:
+        "200":
+          description: Updated category
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Category" }
+        "404": { description: Category not found }
+        "409": { description: Category name already exists }
+    delete:
+      operationId: deleteCategory
+      tags: [categories]
+      summary: Delete a category and leave its tasks uncategorized
+      responses:
+        "204": { description: Category deleted }
+        "404": { description: Category not found }
+  /dashboard:
+    get:
+      operationId: getDashboard
+      tags: [dashboard]
+      summary: Get task summary statistics
+      parameters:
+        - name: today
+          in: query
+          description: The user's local calendar date in YYYY-MM-DD format
+          schema: { type: string, pattern: '^\d{4}-\d{2}-\d{2}$' }
+      responses:
+        "200":
+          description: Current task totals and progress
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Dashboard" }
 components:
   schemas:
     HealthStatus:
@@ -33,4 +228,77 @@ components:
           type: string
       required:
         - status
+    Task:
+      type: object
+      required: [id, title, description, completed, priority, dueDate, categoryId, categoryName, tags, createdAt, updatedAt]
+      properties:
+        id: { type: string, format: uuid }
+        title: { type: string }
+        description: { type: ["string", "null"] }
+        completed: { type: boolean }
+        priority: { type: string, enum: [high, medium, low, none] }
+        dueDate: { type: ["string", "null"], pattern: '^\d{4}-\d{2}-\d{2}$' }
+        categoryId: { type: ["string", "null"], format: uuid }
+        categoryName: { type: ["string", "null"] }
+        tags:
+          type: array
+          items: { type: string }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+    TaskInput:
+      type: object
+      required: [title]
+      properties:
+        title: { type: string, minLength: 1, maxLength: 180 }
+        description: { type: ["string", "null"], maxLength: 2000 }
+        completed: { type: boolean, default: false }
+        priority: { type: string, enum: [high, medium, low, none], default: none }
+        dueDate: { type: ["string", "null"], pattern: '^\d{4}-\d{2}-\d{2}$' }
+        categoryId: { type: ["string", "null"], format: uuid }
+        tags:
+          type: array
+          items: { type: string, minLength: 1, maxLength: 32 }
+          maxItems: 12
+    TaskUpdate:
+      type: object
+      minProperties: 1
+      properties:
+        title: { type: string, minLength: 1, maxLength: 180 }
+        description: { type: ["string", "null"], maxLength: 2000 }
+        completed: { type: boolean }
+        priority: { type: string, enum: [high, medium, low, none] }
+        dueDate: { type: ["string", "null"], pattern: '^\d{4}-\d{2}-\d{2}$' }
+        categoryId: { type: ["string", "null"], format: uuid }
+        tags:
+          type: array
+          items: { type: string, minLength: 1, maxLength: 32 }
+          maxItems: 12
+    Category:
+      type: object
+      required: [id, name, createdAt]
+      properties:
+        id: { type: string, format: uuid }
+        name: { type: string }
+        createdAt: { type: string, format: date-time }
+    CategoryInput:
+      type: object
+      required: [name]
+      properties:
+        name: { type: string, minLength: 1, maxLength: 60 }
+    CategoryUpdate:
+      type: object
+      required: [name]
+      properties:
+        name: { type: string, minLength: 1, maxLength: 60 }
+    Dashboard:
+      type: object
+      required: [total, active, completed, overdue, dueToday, highPriority, completionPercentage]
+      properties:
+        total: { type: integer }
+        active: { type: integer }
+        completed: { type: integer }
+        overdue: { type: integer }
+        dueToday: { type: integer }
+        highPriority: { type: integer }
+        completionPercentage: { type: integer }
 
